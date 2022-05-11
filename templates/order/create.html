@@ -1,0 +1,107 @@
+
+
+{% extends "layout/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Checkout" %}
+{% endblock %}
+
+{% block content %}
+
+<section class="top-discount-area d-md-flex align-items-center">
+  <!-- Single Discount Area -->
+  <div class="single-discount-area">
+      <h5>Free Shipping &amp; Returns</h5>
+      <h6><a href="#">BUY NOW</a></h6>
+  </div>
+  <!-- Single Discount Area -->
+  <div class="single-discount-area">
+      <h5>20% Discount for all dresses</h5>
+      <h6>USE CODE: Colorlib</h6>
+  </div>
+  <!-- Single Discount Area -->
+  <div class="single-discount-area">
+      <h5>20% Discount for students</h5>
+      <h6>USE CODE: Colorlib</h6>
+  </div>
+</section>
+
+<!-- ****** Checkout Area Start ****** -->
+<div class="checkout_area section_padding_100">
+  <div class="container">
+      <div class="row">
+
+          <div class="col-12 col-md-6">
+              <div class="checkout_details_area mt-50 clearfix">
+
+                <form action={% url 'orders:order_create' %} method="post">
+                  {% csrf_token %}
+                  <div class="cart-page-heading">
+                      <h5>Billing Address</h5>
+                      <p>Enter your cupone code</p>
+                  </div>
+
+                      <div class="row">
+                          <div class="col-md-6 mb-3">
+                              <label for="first_name">First Name <span>*</span></label>
+                              {% comment %} <input type="text" class="form-control" id="first_name" value="" required> {% endcomment %}
+                              {{form.first_name}}
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label for="last_name">Last Name <span>*</span></label>
+                              {% comment %} <input type="text" class="form-control" id="last_name" value="" required> {% endcomment %}
+                              {{ form.last_name }}
+                          </div>
+                          <div class="col-12 mb-3">
+                              <label for="Email">Email</label>
+                              {% comment %} <input type="text" class="form-control" id="company" value=""> {% endcomment %}
+                              {{ form.email }}
+                          </div>
+                          <div class="col-12 mb-3">
+                              <label for="Address">Address</label>
+                              {% comment %} <input type="text" class="form-control" id="company" value=""> {% endcomment %}
+                              {{ form.address }}
+                          </div>
+                          <div class="col-12 mb-3">
+                              <label for="postal_code">Postal Code</label>
+                              {% comment %} <input type="text" class="form-control" id="company" value=""> {% endcomment %}
+                              {{ form.postal_code }}
+                          </div>
+                          <div class="col-12 mb-3">
+                              <label for="city">City</label>
+                              {% comment %} <input type="text" class="form-control" id="company" value=""> {% endcomment %}
+                              {{ form.city }}
+                          </div>
+                      </div>
+              </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+              <div class="order-details-confirmation">
+
+                  <div class="cart-page-heading">
+                      <h5>Your Order</h5>
+                      <p>The Details</p>
+                  </div>
+
+                  <ul class="order-details-form mb-4">
+                      <li><span>Product</span> <span>Total</span></li>
+                      {% for item in cart %}
+                      <li><span>{{ item.product.name }}</span> <span>KSH {{ item.total_price|floatformat:2 }}</span></li>
+                      {% endfor %}
+                      <li><span>Subtotal</span> <span>KSH {{ cart.get_total_price_after_discount|floatformat:2 }}</span></li>
+                      <li><span>Shipping</span> <span>Free</span></li>
+                      <li><span>Total</span> <span>KSH {{ cart.get_total_price_after_discount|floatformat:2 }}</span></li>
+                  </ul>
+
+
+                  <input class="btn karl-checkout-btn" type="submit" value="{% trans "Place order" %}">
+              </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<!-- ****** Checkout Area End ****** -->
+{% endblock %}
